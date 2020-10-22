@@ -2,19 +2,27 @@ package employeeWages;
 
 
 public class EmployeeWages {
+
+	static int workingDaysInMonth = 20;
+	static int workingHoursinMonth = 100;
+	static int empWagePerHour = 20;
+
 	public static void main(String[] args) {
 		System.out.println(
 				"-------------------------Welcome to Employee Wage Computation Problem-------------------------");
+		int totalMonthlyWage = empWageForMonth();
+		System.out.println("Employee's salary for the month is " + totalMonthlyWage);
+	}
 
-		int empWagePerHour = 20;
+	public static int empWageForMonth() {
+		int end = 0;
 		int empHrs = 0;
 		int empDailyWage = 0;
-		int workingDaysInMonth = 20;
-		int totalMonthlyWage = 0;
 		int totalEmpDays = 0;
 		int totalHrs = 0;
-		int end = 0;
+		int totalMonthlyWage = 0;
 		while (end >= 0) {
+			++totalEmpDays;
 			int attendance = (int) (Math.floor(Math.random() * 10) % 3);
 			System.out.println(attendance);
 			switch (attendance) {
@@ -27,26 +35,22 @@ public class EmployeeWages {
 				System.out.println("Employee is present");
 				System.out.println();
 				empHrs = 8;
-				totalEmpDays++;
 				break;
 			case 2:
 				System.out.println("Employee is present for Part time");
 				System.out.println();
 				empHrs = 4;
-				totalEmpDays++;
 				break;
 			}
 			totalHrs += empHrs;
 			empDailyWage = empWagePerHour * empHrs;
 			System.out.println("Employee's salary for the day is " + empDailyWage);
 			totalMonthlyWage += empDailyWage;
-			if (totalEmpDays == 20 || totalHrs == 100) {
+			if (totalEmpDays == workingDaysInMonth || totalHrs == workingHoursinMonth) {
 				break;
 			}
 		}
-		System.out.println("Employee's salary for the month is " + totalMonthlyWage);
-		System.out.println("Total Employee Hours:" + totalHrs + "total Employee days" + totalEmpDays);
+		System.out.println("Total Employee Hours: " + totalHrs + " total Employee days " + totalEmpDays);
+		return totalMonthlyWage;
 	}
-
 }
-
