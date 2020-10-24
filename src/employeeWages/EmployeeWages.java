@@ -2,55 +2,48 @@ package employeeWages;
 
 
 public class EmployeeWages {
+	public static final int IS_PART_TIME = 1;
+	public static final int IS_FULL_TIME = 2;
+	private final String company;
+	private final int empRateHours;
+	private final int numofWorkDays;
+	private final int maxHoursperMonth;
 
-	static int workingDaysInMonth = 20;
-	static int workingHoursinMonth = 100;
-	static int empWagePerHour = 20;
-
-	public static void main(String[] args) {
-		System.out.println(
-				"-------------------------Welcome to Employee Wage Computation Problem-------------------------");
-		int totalMonthlyWage = empWageForMonth();
-		System.out.println("Employee's salary for the month is " + totalMonthlyWage);
+	public EmployeeWages(String company, int empRateHours, int numofWorkDays, int maxHoursperMonth) {
+		this.company = company;
+		this.empRateHours = empRateHours;
+		this.maxHoursperMonth = maxHoursperMonth;
+		this.numofWorkDays = numofWorkDays;
 	}
 
-	public static int empWageForMonth() {
-		int end = 0;
-		int empHrs = 0;
-		int empDailyWage = 0;
-		int totalEmpDays = 0;
-		int totalHrs = 0;
-		int totalMonthlyWage = 0;
-		while (end >= 0) {
-			++totalEmpDays;
-			int attendance = (int) (Math.floor(Math.random() * 10) % 3);
-			System.out.println(attendance);
-			switch (attendance) {
-			case 0:
-				System.out.println("Employee is absent");
-				System.out.println();
-				empHrs = 0;
-				break;
-			case 1:
-				System.out.println("Employee is present");
-				System.out.println();
-				empHrs = 8;
-				break;
-			case 2:
-				System.out.println("Employee is present for Part time");
-				System.out.println();
+	private int calEmpWage() {
+		int empHrs = 0, totalEmpHours = 0, totalWorkDays = 0;
+
+		while (totalEmpHours <= maxHoursperMonth && totalWorkDays < numofWorkDays) {
+			totalWorkDays++;
+			int empCheck = (int) (Math.random() * 10 % 3);
+			switch (empCheck) {
+			case IS_PART_TIME:
 				empHrs = 4;
 				break;
-			}
-			totalHrs += empHrs;
-			empDailyWage = empWagePerHour * empHrs;
-			System.out.println("Employee's salary for the day is " + empDailyWage);
-			totalMonthlyWage += empDailyWage;
-			if (totalEmpDays == workingDaysInMonth || totalHrs == workingHoursinMonth) {
+			case IS_FULL_TIME:
+				empHrs = 8;
 				break;
+			default:
+				empHrs = 0;
 			}
+			totalEmpHours += empHrs;
+			System.out.println("Day: " + totalWorkDays + " Emp Hrs: " + empHrs);
 		}
-		System.out.println("Total Employee Hours: " + totalHrs + " total Employee days " + totalEmpDays);
-		return totalMonthlyWage;
+		System.out.println("Total Employee work Hours: " + totalEmpHours);
+		return totalEmpHours * empRateHours;
+	}
+
+	public static void main(String[] args) {
+		System.out.println("*WELCOME TO EMPLOYEE WAGE ");
+		EmployeeWages infosys = new EmployeeWages("infosys", 50, 50, 80);
+		EmployeeWages google = new EmployeeWages("google", 40, 40, 100);
+		System.out.println("Total Employee Wage for " + infosys.company + ": " + infosys.calEmpWage());
+		System.out.println("Total Employee Wage for " + google.company + ": " + google.calEmpWage());
 	}
 }
